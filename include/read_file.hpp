@@ -6,6 +6,6 @@
 #include <time.h>
 #include <string>
 
-int *read_file(int);
+int *read_file();
 
 #endif
