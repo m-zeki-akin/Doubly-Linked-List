@@ -1,5 +1,6 @@
 #include "../include/bubble_sort.hpp"
 
+// Not String or char
 template <typename T,
           std::enable_if<!std::is_same<T, std::string>::type && !std::is_same<T, char>::type>>
 Doubly_Linked_List<T> *bubble_sort(Doubly_Linked_List<T> *dll)
@@ -29,6 +30,7 @@ Doubly_Linked_List<T> *bubble_sort(Doubly_Linked_List<T> *dll)
     return dll;
 }
 
+// String or char
 template <typename T,
           std::enable_if<std::is_same<T, std::string>::type && std::is_same<T, char>::type>>
 Doubly_Linked_List<T> *bubble_sort(Doubly_Linked_List<T> *dll)
@@ -42,6 +44,7 @@ Doubly_Linked_List<T> *bubble_sort(Doubly_Linked_List<T> *dll)
     // Cons: In every step making an assignment. In every outer loop
     // checking for expected condition to break loop
 
+    // Alphabetical order
     std::string a, b;
     unsigned int lenght;
     char a_char, b_char;
@@ -63,7 +66,7 @@ Doubly_Linked_List<T> *bubble_sort(Doubly_Linked_List<T> *dll)
                 a_char = a.at(k);
                 b_char = b.at(k);
 
-                // upper to lower
+                // Upper to lower
                 if (a_char > 96 && < 123)
                     a_char -= 32;
                 if (b_char > 96 && < 123)
