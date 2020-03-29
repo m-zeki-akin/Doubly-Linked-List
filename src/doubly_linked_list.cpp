@@ -194,7 +194,7 @@ template <class T>
 Doubly_Linked_List<T>::~Doubly_Linked_List()
 {
     node *_node = head;
-    if (_node != nullptr)
+    if (_node == nullptr)
         return;
     do
     {
