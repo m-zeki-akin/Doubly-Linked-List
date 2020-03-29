@@ -20,7 +20,7 @@ private:
     unsigned int list_size;
 
     //Methods
-    node *iter(unsigned int _index)
+    node *find(unsigned int _index)
     {
         unsigned int _size = size();
         node *_node;
@@ -64,7 +64,8 @@ public:
     void remove(unsigned int _index);
     void insert_before(unsigned int _index, T _value);
     void insert_after(unsigned int _index, T _value);
-    void traverse();
+    void invert();
+    void swap(unsigned int a_index, unsigned int b_index);
     T get(unsigned int _index);
     unsigned int size();
     void array_to_list(T *arr);

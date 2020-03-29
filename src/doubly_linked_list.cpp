@@ -1,5 +1,4 @@
 #include "../include/doubly_linked_list.hpp"
-#include <iostream>
 
 //constructor
 template <class T>
@@ -55,7 +54,15 @@ void Doubly_Linked_List<T>::append(T _value)
 template <class T>
 void Doubly_Linked_List<T>::remove(unsigned int _index)
 {
-    node *_node = iter(_index);
+    node *_node = find(_index);
+    if (_node == head)
+    {
+        head = head->next;
+    }
+    else if (_node == tail)
+    {
+        tail = tail->next;
+    }
     _node->prev->next = _node->next;
     _node->next->prev = _node->prev;
     free(_node);
@@ -65,7 +72,7 @@ void Doubly_Linked_List<T>::remove(unsigned int _index)
 template <class T>
 void Doubly_Linked_List<T>::insert_before(unsigned int _index, T _value)
 {
-    node *_node = iter(_index);
+    node *_node = find(_index);
     node *new_node = (node *)malloc(sizeof(node));
     new_node->value = _value;
     if (_node == head)
@@ -85,7 +92,7 @@ void Doubly_Linked_List<T>::insert_before(unsigned int _index, T _value)
 template <class T>
 void Doubly_Linked_List<T>::insert_after(unsigned int _index, T _value)
 {
-    node *_node = iter(_index);
+    node *_node = find(_index);
     node *new_node = (node *)malloc(sizeof(node));
     new_node->value = _value;
 
@@ -104,7 +111,7 @@ void Doubly_Linked_List<T>::insert_after(unsigned int _index, T _value)
 }
 
 template <class T>
-void Doubly_Linked_List<T>::traverse()
+void Doubly_Linked_List<T>::invert()
 {
     node *_node;
 
@@ -117,19 +124,69 @@ void Doubly_Linked_List<T>::traverse()
     }
 
     tail->next = nullptr;
-    head->prev - nullptr;
+    head->prev = nullptr;
 }
 
 template <class T>
 T Doubly_Linked_List<T>::get(unsigned int _index)
 {
-    return iter(_index)->value;
+    return find(_index)->value;
 }
 
 template <class T>
 unsigned int Doubly_Linked_List<T>::size()
 {
     return list_size;
+}
+
+template <class T>
+void Doubly_Linked_List<T>::array_to_list(T *arr)
+{
+    if (arr != nullptr)
+        for (unsigned int i = 0; i < sizeof(arr); i++)
+        {
+            append(arr[i]);
+        }
+}
+
+template <class T>
+void Doubly_Linked_List<T>::swap(unsigned int a_index, unsigned int b_index)
+{
+    if (a_index == b_index)
+        return;
+
+    node *a_node = find(a_index);
+    node *b_node = find(b_index);
+    node *b_node_tmp = b_node;
+
+    b_node->next = a_node->next;
+    b_node->prev = a_node->prev;
+    a_node->next = b_node_tmp->next;
+    a_node->prev = b_node_tmp->prev;
+
+    // Endnode solutions
+    if (a_node != tail)
+        a_node->next->prev = b_node_tmp;
+    else
+        tail = b_node;
+
+    if (a_node != head)
+        a_node->prev->next = b_node_tmp;
+    else
+        head = b_node;
+
+    if (b_node != tail)
+        b_node->next->prev = a_node;
+    else
+        tail = a_node;
+
+    if (b_node != head)
+        b_node->prev->next = a_node;
+    else
+        head = a_node;
+
+    b_node = a_node;
+    a_node = b_node_tmp;
 }
 
 //destructor
@@ -144,30 +201,4 @@ Doubly_Linked_List<T>::~Doubly_Linked_List()
         free(_node);
 
     } while (_node->next != nullptr);
-}
-
-template <class T>
-void Doubly_Linked_List<T>::array_to_list(T *arr)
-{
-    if (arr != nullptr)
-        for (unsigned int i = 0; i < sizeof(arr); i++)
-        {
-            append(arr[i]);
-        }
-}
-
-int main()
-{
-
-    Doubly_Linked_List<const char *> *dll_string = new Doubly_Linked_List<const char *>();
-
-    dll_string->append("bir");
-    dll_string->append("iki");
-
-    printf("Index one: %s\nIndex two: %s", dll_string->get(0), dll_string->get(1));
-
-    delete dll_string;
-
-    getchar();
-    return 0;
 }
